@@ -9,8 +9,8 @@ namespace UI
         {
             if (NetworkServer.active && NetworkClient.isConnected)
                 NetworkManager.singleton.StopHost();
-            else if (NetworkClient.isConnecting)
-                NetworkManager.singleton.StopClient();
+            else if (NetworkClient.active)
+                NetworkClient.Disconnect();
             else if (NetworkServer.active)
                 NetworkManager.singleton.StopServer();
         }
