@@ -24,6 +24,7 @@ namespace CodeBase.IteractableObjects
         [SerializeField] public string contactType;
 
         private GrabbableObject grabbableObject;
+        private ActiveType currentActiveType;
 
         public bool IsEmpty { get => grabbableObject == null; }
         public Vector3 GrabPosition { get => transform.localPosition; }
@@ -40,11 +41,14 @@ namespace CodeBase.IteractableObjects
                 throw new Exception($"Rendere is null {gameObject.name}");
 
             activatedMat = rend.material;
-            SetActive(ActiveType.Diactivate);
+            rend.material = disactivatedMat;
+            //SetActive(ActiveType.Diactivate);
         }
 
         internal void SetActive(ActiveType active)
         {
+            if (currentActiveType == active) return;
+
             switch (active)
             {
                 case ActiveType.Diactivate:
@@ -59,6 +63,7 @@ namespace CodeBase.IteractableObjects
                     rend.material = activatedMat;
                     break;
             }
+            currentActiveType = active;
         }
         internal void SetUp(GrabbableObject grabbableObject)
         {

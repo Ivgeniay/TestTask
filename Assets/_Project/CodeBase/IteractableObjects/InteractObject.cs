@@ -10,8 +10,7 @@ namespace CodeBase.IteractableObjects
 
         protected virtual void Awake()
         {
-            if (!numberText) throw new System.Exception($"Interaction's UI element is null");
-            else numberText.text = Key.ToString();
+            numberText.text = Key.ToString();
         }
     }
 }

@@ -2,7 +2,6 @@
 using DG.Tweening;
 using System;
 using UnityEngine;
-using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 namespace CodeBase.PlayerBehaviour
 {
@@ -35,18 +34,18 @@ namespace CodeBase.PlayerBehaviour
             {
                 if (!GrabbableObject && !BuildInObject) TryToGrab();
                 else if (GrabbableObject && !BuildInObject) Throw();
-                else if (GrabbableObject && BuildInObject) SetGrabToBuild();
+                else if (GrabbableObject && BuildInObject 
+                    && GrabbableObject.Key == BuildInObject.Key) SetGrabToBuild();
             }
 
             if (GrabbableObject)
             {
-                float scrollWheel = Input.GetAxis("Mouse ScrollWheel");
+                float scrollWheel = Input.GetAxisRaw("Mouse ScrollWheel");
                 if (scrollWheel != 0)
                 {
-                    Quaternion deltaRotation = Quaternion.Euler(Vector3.up * scrollWheel * 5000 * Time.deltaTime);
+                    Quaternion deltaRotation = Quaternion.Euler(Vector3.up * 30f * Mathf.Sign(scrollWheel));
                     var rb = GrabbableObject.GetRigidbody();
-                    rb.MoveRotation(rb.rotation * deltaRotation);
-                    //GrabbableObject.transform.rotation = GrabbableObject.transform.rotation * deltaRotation;
+                    rb?.MoveRotation(rb.rotation * deltaRotation);
                 }
             }
 
@@ -87,7 +86,7 @@ namespace CodeBase.PlayerBehaviour
         {
             if (!GrabbableObject)
             {
-                if (BuildInObject) BuilIdIsSeeked(null);
+                if (BuildInObject) BuildinIsSeeked(null);
                 return;
             }
 
@@ -95,18 +94,12 @@ namespace CodeBase.PlayerBehaviour
             if (Physics.Raycast(ray, out RaycastHit hit, grabDistance, interacLayerMask))
             {
                 var builIn = hit.transform.GetComponent<BuildInObject>();
-                if (builIn != null)
-                {
-                    BuilIdIsSeeked(builIn);
-                }
+                BuildinIsSeeked(builIn);
             }
-            else
-            {
-                BuilIdIsSeeked(null);
-            }
+            else BuildinIsSeeked(null);
         }
 
-        private void BuilIdIsSeeked(BuildInObject buildInObject)
+        private void BuildinIsSeeked(BuildInObject buildInObject)
         {
             if (buildInObject == null)
             {
