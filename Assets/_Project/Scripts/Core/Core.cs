@@ -45,6 +45,9 @@ namespace Clock
         public T GetService<T>() =>
             serviceProvider.GetService<T>();
 
+        /// <summary>
+        /// Used from scene btn
+        /// </summary>
         public void GameModeChange()
         {
             GameModeService gameModeService = serviceProvider.GetService<GameModeService>();

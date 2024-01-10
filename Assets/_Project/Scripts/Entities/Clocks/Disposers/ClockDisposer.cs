@@ -14,11 +14,13 @@ namespace Clock.Entities.Clocks
         private BaseController controller;
         [SerializeField] private AnalogueController analogueController;
         [SerializeField] private TimerController timerController;
+        [SerializeField] private float lazyTimer = 3600;
 
         private TimeHolder timeHolder;
 
         private NetworkingService networkingService;
         private GameModeService gameModeService;
+        private Coroutine refreshDataCoroutine = null;
 
         private void Awake()
         {
@@ -34,12 +36,21 @@ namespace Clock.Entities.Clocks
             networkingService = core.GetService<NetworkingService>();
 
             clocks.ForEach(clock => { clock.Init(); });
+
+
             yield return networkingService.SendRequestTimeData(GetNetworkingTimeData());
+            refreshDataCoroutine = StartCoroutine(GetLazyData(lazyTimer));
         }  
 
         private void Update() =>
             controller?.OnUpdate();
         
+        private IEnumerator GetLazyData(float seconds)
+        {
+            yield return new WaitForSecondsRealtime(seconds);
+            yield return networkingService.SendRequestTimeData(GetNetworkingTimeData());
+            refreshDataCoroutine = StartCoroutine(GetLazyData(seconds));
+        }
 
         private Action<DateTime> GetNetworkingTimeData()
         {
@@ -61,7 +72,7 @@ namespace Clock.Entities.Clocks
                 }
 
                 analogueController.Initialize(timeHolder, clocks);
-                timerController.Initialize(timeHolder, clocks);
+                timerController.Initialize(timeHolder);
 
                 if (controller != null) controller.OnTimeChangeEvent -= OnTimeChangeHandlet;
                 controller = timerController;
@@ -93,10 +104,7 @@ namespace Clock.Entities.Clocks
 
         private void OnTimeChangeHandlet(DateTime time)
         {
-            clocks.ForEach(e =>
-            {
-                e.SetTime(time);
-            });
+            clocks.ForEach(e => { e.SetTime(time); });
         }
     }
 

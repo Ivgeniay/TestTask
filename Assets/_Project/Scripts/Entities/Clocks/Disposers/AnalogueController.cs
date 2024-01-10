@@ -6,15 +6,18 @@ namespace Clock.Entities.Clocks
 {
     internal class AnalogueController : BaseController
     {
+        private List<BaseClock> clocks;
+
         [SerializeField] private ArrowView hourArrowView;
         [SerializeField] private ArrowView minuteArrowView;
         [SerializeField] private ArrowView secondArrowView;
 
-        public override void Initialize(TimeHolder timeHolder, List<BaseClock> clocks)
+        public override void Initialize(params object[] param)
         {
-            base.Initialize(timeHolder, clocks);
+            base.Initialize(param);
             if (IsInitialized) return;
 
+            clocks = param[1] as List<BaseClock>;
             clocks.ForEach(e =>
             {
                 if (e is AnalogueClock a)
@@ -46,7 +49,6 @@ namespace Clock.Entities.Clocks
 
             clocks.ForEach(e => { e.SetTime(timeHolder.CurrentTime); });
         }
-
         private void OnAnalogueValueChangeHandler(object sender, int circlePart, float value)
         {
             switch (sender)
@@ -93,7 +95,6 @@ namespace Clock.Entities.Clocks
 
             }
         }
-
         private (int Real, float Fraction) GetPart(float angle, int circlePart)
         {
             angle = MathF.Abs(angle - 360);
@@ -103,7 +104,6 @@ namespace Clock.Entities.Clocks
             int real = Mathf.RoundToInt(r - fraction);
             return (real, fraction);
         }
-
         private int GetIntLepr(float fraction, int min, int max) =>
             Mathf.RoundToInt(Mathf.Lerp(min, max, fraction));
     }

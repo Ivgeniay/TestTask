@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace Clock.Entities.Clocks
 {
@@ -9,15 +9,12 @@ namespace Clock.Entities.Clocks
         public event Action<DateTime> OnTimeChangeEvent;
 
         protected TimeHolder timeHolder;
-        protected List<BaseClock> clocks;
         protected bool IsInitialized = false;
 
-        public virtual void Initialize(TimeHolder timeHolder, List<BaseClock> clocks)
+        public virtual void Initialize(params System.Object[] param)
         {
             if (IsInitialized) return;
-
-            this.timeHolder = timeHolder;
-            this.clocks = clocks;
+            this.timeHolder = param[0] as TimeHolder;
         }
 
         internal virtual void OnUpdate() { }

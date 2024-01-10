@@ -16,26 +16,18 @@ namespace Clock.Animations
 
         private bool isEditMode = false;
 
-        public void OnPointerEnter(PointerEventData eventData)
-        {
+        public void OnPointerEnter(PointerEventData eventData) =>
             animator.SetTrigger(OnHowerTr);
-        }
-
-        public void OnPointerExit(PointerEventData eventData)
-        {
+        public void OnPointerExit(PointerEventData eventData) =>
             animator.SetTrigger(OnExitTr);
-        }
-
-        public void OnPointerDown(PointerEventData eventData)
-        {
-            animator.SetTrigger(OnBtnDownTr); 
-        }
-
-        public void OnPointerUp(PointerEventData eventData)
-        {
+        public void OnPointerDown(PointerEventData eventData) =>
+            animator.SetTrigger(OnBtnDownTr);
+        public void OnPointerUp(PointerEventData eventData) =>
             animator.SetTrigger(OnBtnUpTr);
-        }
 
+        /// <summary>
+        /// Used from scene btn
+        /// </summary>
         public void OnClick()
         {
             isEditMode = !isEditMode;

@@ -11,8 +11,6 @@ namespace Clock.Entities
     {
         public event Action<object, float> OnPointerMovedEvent;
 
-        [SerializeField] private AnalogueController analogueController;
-        [SerializeField] private float angle;
         [SerializeField] private RectTransform rectTransform;
 
 

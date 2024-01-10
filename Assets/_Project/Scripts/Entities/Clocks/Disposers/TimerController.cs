@@ -6,9 +6,9 @@ namespace Clock.Entities.Clocks
     internal class TimerController : BaseController
     {
         private Timer timer;
-        public override void Initialize(TimeHolder timeHolder, List<BaseClock> clocks)
+        public override void Initialize(params object[] param)
         {
-            base.Initialize(timeHolder, clocks);
+            base.Initialize(param);
             if (IsInitialized) return;
 
             timer = new Timer();

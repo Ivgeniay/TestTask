@@ -8,8 +8,8 @@ namespace Clock.Entities.Arrows
     {
         public event Action<object, int, float> OnPointerMovedEvent;
 
-        [SerializeField] protected ArrowView arrowView;
-        [SerializeField] protected int circlePart = 60;
+        [SerializeField] private ArrowView arrowView;
+        [SerializeField] private int circlePart = 60;
         [SerializeField] private float currentPart = 0;
 
         public ArrowController(ArrowView arrowView, int circlePart)

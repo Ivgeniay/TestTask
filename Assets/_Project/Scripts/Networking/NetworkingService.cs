@@ -8,8 +8,8 @@ namespace Clock.Networking
 {
     internal class NetworkingService : IService
     {
-        public const string CorsAnywhereUrl = "https://corsproxy.io/?";
-        public const string TargetUrl = "https://yandex.com/time/sync.json";
+        public const string PROXY_URL = "https://corsproxy.io/?";
+        public const string URL = "https://yandex.com/time/sync.json";
 
         public IEnumerator SendRequestTimeData(Action<DateTime> onSuccess, Action<ErrorDataModel> onError = null)
         {
@@ -25,9 +25,9 @@ namespace Clock.Networking
 
 
 #if UNITY_WEBGL
-        public IEnumerator SendRequestTimeDataWeb(Action<DateTime> onSuccess, Action<ErrorDataModel> onError = null)
+        private IEnumerator SendRequestTimeDataWeb(Action<DateTime> onSuccess, Action<ErrorDataModel> onError = null)
         {
-            string fullUrl = $"{CorsAnywhereUrl}{TargetUrl}";
+            string fullUrl = $"{PROXY_URL}{URL}";
 
             using (UnityWebRequest request = UnityWebRequest.Get(fullUrl))
             {
@@ -57,9 +57,9 @@ namespace Clock.Networking
 #endif
 
 #if UNITY_EDITOR
-        public IEnumerator SendRequestTimeDataEditor(Action<DateTime> onSuccess, Action<ErrorDataModel> onError = null)
+        private IEnumerator SendRequestTimeDataEditor(Action<DateTime> onSuccess, Action<ErrorDataModel> onError = null)
         {
-            using (UnityWebRequest request = UnityWebRequest.Get(TargetUrl))
+            using (UnityWebRequest request = UnityWebRequest.Get(URL))
             {
                 yield return request.SendWebRequest();
 
