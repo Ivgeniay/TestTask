@@ -77,7 +77,7 @@ namespace Clock.Entities.Clocks
                         else if (arrow == secondArrowView)
                             seconds = res.Real;
                     
-                        Debug.Log($"Sender: {sender}, CirclePart: {circlePart} Value: {value}");
+                        //Debug.Log($"Sender: {sender}, CirclePart: {circlePart} Value: {value}");
 
                         timeHolder.CurrentTime = new DateTime(year, month, day, hour, minute, seconds);
                         timeHolder.StartTime = new DateTime(year, month, day, hour, minute, seconds);

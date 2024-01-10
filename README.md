@@ -1,5 +1,7 @@
 # TestTask
 
+## Solution: https://vitalysobakinson.itch.io/testtask
+
 Тестовое задание
 
 Основное задание
